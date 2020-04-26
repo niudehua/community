@@ -12,8 +12,14 @@
 [BootStrap文档](https://v3.bootcss.com/getting-started)
  
 [GitHub OAuth](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)
+
+[OkHttp文档](https://square.github.io/okhttp)
+
+[Fastjson](https://github.com/alibaba/fastjson)
 ## 工具
 [Git](https://git-scm.com/downloads)
+
+[Visual Paradigm](https://www.visual-paradigm.com/cn/download/community.jsp)
 
 [IntelliJ IDEA](https://www.jetbrains.com/idea/download)
 
