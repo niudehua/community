@@ -5,7 +5,6 @@ import cn.niudehua.community.dto.GitHubUser;
 import cn.niudehua.community.mapper.UserMapper;
 import cn.niudehua.community.model.User;
 import cn.niudehua.community.provider.GithubProvider;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,6 +58,7 @@ public class AuthorizeController {
             User user = new User();
             user.setName(gitHubUser.getName());
             user.setAccountId(String.valueOf(gitHubUser.getId()));
+            user.setBio(gitHubUser.getBio());
             String token = UUID.randomUUID().toString();
             user.setToken(token);
             user.setGmtCreat(System.currentTimeMillis());

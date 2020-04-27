@@ -10,6 +10,7 @@ public class User {
     private String name;
     private String accountId;
     private String token;
+    private String bio;
     private Long gmtCreat;
     private Long gmtModified;
 
@@ -43,6 +44,14 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 
     public Long getGmtCreat() {
