@@ -1,9 +1,14 @@
 package cn.niudehua.community.controller;
 
+import cn.niudehua.community.mapper.UserMapper;
+import cn.niudehua.community.model.User;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author: deng
@@ -11,9 +16,25 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @desc:
  */
 @Controller
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class IndexController {
+    private final UserMapper userMapper;
+
     @GetMapping("/")
-    public String index() {
+    public String index(HttpServletRequest httpServletRequest) {
+        Cookie[] cookies = httpServletRequest.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("token".equals(cookie.getName())) {
+                    User userMapperByToken = userMapper.findByToken(cookie.getValue());
+                    if (userMapperByToken != null) {
+                        httpServletRequest.getSession().setAttribute("gitHubUser", userMapperByToken);
+                    }
+                    break;
+                }
+            }
+        }
+
         return "index";
     }
 

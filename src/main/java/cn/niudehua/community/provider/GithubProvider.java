@@ -32,7 +32,6 @@ public class GithubProvider {
         try (Response response = client.newCall(request).execute()) {
             String string = response.body().string();
             String accessToken = JSONObject.parseObject(string).getString("access_token");
-            System.out.println(accessToken);
             return accessToken;
         } catch (Exception e) {
             e.printStackTrace();
