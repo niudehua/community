@@ -1,11 +1,24 @@
-.main{
+.main {
     margin: 30px;
     background-color: white;
 }
-body{
+
+body {
     background-color: #efefef;
 }
-.btn-publish{
+
+.btn-publish {
     float: right;
     margin-bottom: 15px;
+}
+
+.img_avatar_url {
+    width: 38px;
+}
+
+
+.text-desc {
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
 }
