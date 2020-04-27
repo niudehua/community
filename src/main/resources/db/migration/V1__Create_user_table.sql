@@ -7,6 +7,7 @@ create table USER
 	GMT_CREAT BIGINT,
 	GMT_MODIFIED BIGINT,
 	BIO VARCHAR(256),
+	AVATAR_URL VARCHAR(100),
 	constraint USER_PK
 		primary key (ID)
 );

@@ -5,6 +5,7 @@ import cn.niudehua.community.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.Cookie;
@@ -23,7 +24,7 @@ public class IndexController {
     @GetMapping("/")
     public String index(HttpServletRequest httpServletRequest) {
         Cookie[] cookies = httpServletRequest.getCookies();
-        if (cookies != null) {
+        if (!ObjectUtils.isEmpty(cookies)) {
             for (Cookie cookie : cookies) {
                 if ("token".equals(cookie.getName())) {
                     User userMapperByToken = userMapper.findByToken(cookie.getValue());
@@ -34,7 +35,6 @@ public class IndexController {
                 }
             }
         }
-
         return "index";
     }
 

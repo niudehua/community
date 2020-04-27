@@ -21,14 +21,16 @@
 
 [MyBatis整合SpringBoot](http://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/)
 
+[Flayway Maven Plugin](https://flywaydb.org/getstarted/firststeps/maven)
+
+[Lombok插件](https://projectlombok.org/features/all)
+
 ## 工具
 [Git](https://git-scm.com/downloads)
 
 [Visual Paradigm](https://www.visual-paradigm.com/cn/download/community.jsp)
 
 [IntelliJ IDEA](https://www.jetbrains.com/idea/download)
-
-[Flayway Maven Plugin](https://flywaydb.org/getstarted/firststeps/maven)
 
 ## 数据库sql
 ```sql
