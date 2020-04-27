@@ -28,6 +28,8 @@
 
 [IntelliJ IDEA](https://www.jetbrains.com/idea/download)
 
+[Flayway Maven Plugin](https://flywaydb.org/getstarted/firststeps/maven)
+
 ## 数据库sql
 ```sql
 create table USER
@@ -41,6 +43,10 @@ create table USER
 	constraint USER_PK
 		primary key (ID)
 );
+```
+## Flayway使用
+```bash
+mvn flyway:migrate
 ```
 
 
