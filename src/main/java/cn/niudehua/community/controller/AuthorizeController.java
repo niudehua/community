@@ -2,7 +2,11 @@ package cn.niudehua.community.controller;
 
 import cn.niudehua.community.dto.AccessTokenDTO;
 import cn.niudehua.community.dto.GitHubUser;
+import cn.niudehua.community.mapper.UserMapper;
+import cn.niudehua.community.model.User;
 import cn.niudehua.community.provider.GithubProvider;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
 /**
  * @author: deng
@@ -17,9 +22,12 @@ import javax.servlet.http.HttpServletRequest;
  * @desc:
  */
 @Controller
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthorizeController {
-    @Autowired
-    GithubProvider githubProvider;
+
+    private final GithubProvider githubProvider;
+
+    private final UserMapper userMapper;
 
     @Value("${github.client.id}")
     private String clientId;
@@ -29,6 +37,7 @@ public class AuthorizeController {
 
     @Value("${github.redirect.uri}")
     private String redirectUri;
+
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
@@ -44,6 +53,14 @@ public class AuthorizeController {
         GitHubUser gitHubUser = githubProvider.getGitHubUser(accessToken);
         if (gitHubUser != null) {
             //登录成功 写入cookie和session
+            User user = new User();
+            user.setName(gitHubUser.getName());
+            user.setAccountId(String.valueOf(gitHubUser.getId()));
+            user.setToken(UUID.randomUUID().toString());
+            user.setGmtCreat(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreat());
+
+            userMapper.insert(user);
             httpServletRequest.getSession().setAttribute("gitHubUser", gitHubUser);
             return "redirect:/";
         } else {

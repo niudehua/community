@@ -16,6 +16,11 @@
 [OkHttp文档](https://square.github.io/okhttp)
 
 [Fastjson](https://github.com/alibaba/fastjson)
+
+[H2DB](http://www.h2database.com/html/quickstart.html)
+
+[MyBatis整合SpringBoot](http://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/)
+
 ## 工具
 [Git](https://git-scm.com/downloads)
 
@@ -23,5 +28,19 @@
 
 [IntelliJ IDEA](https://www.jetbrains.com/idea/download)
 
+## 数据库sql
+```sql
+create table USER
+(
+	ID INT auto_increment,
+	TOKEN CHAR(36),
+	NAME VARCHAR(50),
+	ACCOUNT_ID VARCHAR(100),
+	GMT_CREAT BIGINT,
+	GMT_MODIFIED BIGINT,
+	constraint USER_PK
+		primary key (ID)
+);
+```
 
 
