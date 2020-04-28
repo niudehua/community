@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * @author: deng
  * @datetime: 2020/4/26 2:46 下午
- * @desc:
+ * @desc: 嘟嘟社区
  */
 @SpringBootApplication
 public class CommunityApplication {

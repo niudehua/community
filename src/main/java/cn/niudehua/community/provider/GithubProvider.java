@@ -12,6 +12,7 @@ import okhttp3.Response;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * @author: deng
@@ -20,6 +21,13 @@ import java.io.IOException;
  */
 @Component
 public class GithubProvider {
+
+    /**
+     * 获取gitHub AccessToken
+     *
+     * @param accessTokenDTO GitHub授权
+     * @return AccessToken
+     */
     public String getAccessToken(AccessTokenDTO accessTokenDTO) {
         MediaType mediaType = MediaType.get("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient();
@@ -30,7 +38,7 @@ public class GithubProvider {
                 .post(body)
                 .build();
         try (Response response = client.newCall(request).execute()) {
-            String string = response.body().string();
+            String string = Objects.requireNonNull(response.body()).string();
             String accessToken = JSONObject.parseObject(string).getString("access_token");
             return accessToken;
         } catch (Exception e) {
@@ -39,14 +47,19 @@ public class GithubProvider {
         return null;
     }
 
-
+    /**
+     * 获取gitHub用户信息
+     *
+     * @param token AccessToken
+     * @return GitHubUser
+     */
     public GitHubUser getGitHubUser(String token) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url("https://api.github.com/user?access_token=" + token)
                 .build();
         try (Response response = client.newCall(request).execute()) {
-            String string = response.body().string();
+            String string = Objects.requireNonNull(response.body()).string();
             GitHubUser gitHubUser = JSON.parseObject(string, GitHubUser.class);
             return gitHubUser;
         } catch (IOException e) {

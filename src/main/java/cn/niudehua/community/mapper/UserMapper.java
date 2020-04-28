@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Select;
 /**
  * @author: deng
  * @datetime: 2020/4/27 9:41 上午
- * @desc:
+ * @desc: 用户模型映射
  */
 @Mapper
 public interface UserMapper {
