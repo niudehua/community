@@ -3,6 +3,7 @@ package cn.niudehua.community.mapper;
 import cn.niudehua.community.model.Question;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -25,8 +26,19 @@ public interface QuestionMapper {
     /**
      * 查询所有问题
      *
+     * @param offset
+     * @param size
      * @return List<Question>
      */
-    @Select("select * from question ")
-    List<Question> list();
+    @Select("select * from question limit #{offset},#{size} ")
+    List<Question> list(@Param("offset") Integer offset,
+                        @Param("size") Integer size);
+
+    /**
+     * 查询总条数
+     *
+     * @return totalCount
+     */
+    @Select("select count(1) from question")
+    Integer count();
 }

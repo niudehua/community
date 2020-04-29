@@ -1,6 +1,6 @@
 package cn.niudehua.community.controller;
 
-import cn.niudehua.community.dto.QuestionDTO;
+import cn.niudehua.community.dto.PaginationDTO;
 import cn.niudehua.community.mapper.UserMapper;
 import cn.niudehua.community.model.User;
 import cn.niudehua.community.service.QuestionService;
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * @author: deng
@@ -34,8 +34,9 @@ public class IndexController {
      * @return 主页
      */
     @GetMapping("/")
-    public String index(HttpServletRequest httpServletRequest
-            , Model model) {
+    public String index(HttpServletRequest httpServletRequest, Model model,
+                        @RequestParam(name = "page", defaultValue = "1") Integer page,
+                        @RequestParam(name = "size", defaultValue = "3") Integer size) {
         User userMapperByToken;
         Cookie[] cookies = httpServletRequest.getCookies();
         if (!ObjectUtils.isEmpty(cookies)) {
@@ -49,11 +50,10 @@ public class IndexController {
                     break;
                 }
             }
-            //获取问题列表
-            List<QuestionDTO> questionList = questionService.list();
-            model.addAttribute("questions", questionList);
         }
-
+        //获取问题列表
+        PaginationDTO paginationDTO = questionService.list(page, size);
+        model.addAttribute("paginationDTO", paginationDTO);
         return "index";
     }
 
