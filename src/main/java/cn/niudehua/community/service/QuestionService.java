@@ -61,4 +61,34 @@ public class QuestionService {
         paginationDTO.setData(questionDTOS);
         return paginationDTO;
     }
+
+    public PaginationDTO list(Integer userId, Integer page, Integer size) {
+        PaginationDTO paginationDTO = new PaginationDTO();
+        // 查出总条数
+        Integer totalCount = questionMapper.countByCreator(userId);
+        // 设置分页相关属性
+        paginationDTO.setPagination(totalCount, page, size);
+        // 判断page容错 小于1时设置为1，大于总页数时设置为总页数
+        if (page < 1) {
+            page = 1;
+        }
+        if (page > paginationDTO.getTotalPage()) {
+            page = paginationDTO.getTotalPage();
+        }
+        // limit查询
+        Integer offset = size * (page - 1);
+        List<Question> questionList = questionMapper.listByCreator(userId, offset, size);
+        //关联user表查询
+        List<QuestionDTO> questionDTOS = new ArrayList<>();
+        for (Question question : questionList) {
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(question, questionDTO);
+            // 通过Question中的creator字段查询出相关联的User封装到QuestionDTO中
+            User user = userMapper.findById(question.getCreator());
+            questionDTO.setUser(user);
+            questionDTOS.add(questionDTO);
+        }
+        paginationDTO.setData(questionDTOS);
+        return paginationDTO;
+    }
 }

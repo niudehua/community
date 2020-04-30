@@ -24,10 +24,10 @@ public interface QuestionMapper {
     void insert(Question question);
 
     /**
-     * 查询所有问题
+     * 分页查询所有问题
      *
-     * @param offset
-     * @param size
+     * @param offset 偏移量
+     * @param size   每页条数
      * @return List<Question>
      */
     @Select("select * from question limit #{offset},#{size} ")
@@ -41,4 +41,26 @@ public interface QuestionMapper {
      */
     @Select("select count(1) from question")
     Integer count();
+
+    /**
+     * 指定user分页查询
+     *
+     * @param userId 用户id creator
+     * @param offset 偏移量
+     * @param size   每页条数
+     * @return List<Question>
+     */
+    @Select("select * from question where creator = #{userId} limit #{offset},#{size} ")
+    List<Question> listByCreator(@Param("userId") Integer userId,
+                                 @Param("offset") Integer offset,
+                                 @Param("size") Integer size);
+
+    /**
+     * 指定user查询总条数
+     *
+     * @param userId 用户id creator
+     * @return totalCountByCreator
+     */
+    @Select("select count(1) from question where creator = #{userId}")
+    Integer countByCreator(@Param("userId") Integer userId);
 }
