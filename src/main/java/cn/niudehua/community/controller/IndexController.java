@@ -31,6 +31,8 @@ public class IndexController {
      *
      * @param httpServletRequest http Servlet请求
      * @param model              视图模型
+     * @param page               当前页
+     * @param size               每页数据条数
      * @return 主页
      */
     @GetMapping("/")

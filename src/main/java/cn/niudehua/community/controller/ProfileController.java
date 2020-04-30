@@ -1,9 +1,7 @@
 package cn.niudehua.community.controller;
 
 import cn.niudehua.community.dto.PaginationDTO;
-import cn.niudehua.community.mapper.QuestionMapper;
 import cn.niudehua.community.mapper.UserMapper;
-import cn.niudehua.community.model.Question;
 import cn.niudehua.community.model.User;
 import cn.niudehua.community.service.QuestionService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +27,16 @@ public class ProfileController {
     private final UserMapper userMapper;
     private final QuestionService questionService;
 
+    /**
+     * 个人资料
+     *
+     * @param action             个人资料下拉分栏
+     * @param page               当前页
+     * @param size               每页数据条数
+     * @param model              视图模型
+     * @param httpServletRequest http Servlet请求
+     * @return 个人资料页
+     */
     @GetMapping("/profile/{action}")
     public String profile(
             @PathVariable(name = "action") String action,
@@ -54,7 +62,7 @@ public class ProfileController {
         if (ObjectUtils.isEmpty(user)) {
             return "redirect:/";
         }
-
+        //个人资料下拉分栏
         if ("questions".equals(action)) {
             model.addAttribute("section", "questions");
             model.addAttribute("sectionName", "我的提问");
@@ -63,10 +71,7 @@ public class ProfileController {
         } else if ("replies".equals(action)) {
             model.addAttribute("section", "replies");
             model.addAttribute("sectionName", "最新回复");
-
         }
-
-
         return "/profile";
     }
 }

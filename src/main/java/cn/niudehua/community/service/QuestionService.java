@@ -62,6 +62,14 @@ public class QuestionService {
         return paginationDTO;
     }
 
+    /**
+     * 查询指定用户展示到个人资料页面-我的问题
+     *
+     * @param userId creator 当前用户
+     * @param page   当前页数
+     * @param size   每页数据条数
+     * @return List<QuestionDTO>
+     */
     public PaginationDTO list(Integer userId, Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
         // 查出总条数
