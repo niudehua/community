@@ -1,20 +1,17 @@
 package cn.niudehua.community.controller;
 
 import cn.niudehua.community.mapper.QuestionMapper;
-import cn.niudehua.community.mapper.UserMapper;
 import cn.niudehua.community.model.Question;
 import cn.niudehua.community.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -25,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PublishController {
-    private final UserMapper userMapper;
     private final QuestionMapper questionMapper;
 
     /**
@@ -73,20 +69,7 @@ public class PublishController {
             return "publish";
         }
 
-        User user = null;
-        Cookie[] cookies = httpServletRequest.getCookies();
-        if (!ObjectUtils.isEmpty(cookies)) {
-            for (Cookie cookie : cookies) {
-                // 通过cookie获取用户信息并将用户信息保存到session
-                if ("token".equals(cookie.getName())) {
-                    user = userMapper.findByToken(cookie.getValue());
-                    if (user != null) {
-                        httpServletRequest.getSession().setAttribute("gitHubUser", user);
-                    }
-                    break;
-                }
-            }
-        }
+        User user = (User) httpServletRequest.getSession().getAttribute("gitHubUser");
         // 用户未登录，跳转回发布页面
         if (user == null) {
             model.addAttribute("error", "用户未登录");

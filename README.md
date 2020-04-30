@@ -25,6 +25,8 @@
 
 [Lombok插件](https://projectlombok.org/features/all)
 
+[Spring Web MVC](https://docs.spring.io/spring/docs/5.2.5.RELEASE/spring-framework-reference/web.html)
+
 ## 工具
 [Git](https://git-scm.com/downloads)
 

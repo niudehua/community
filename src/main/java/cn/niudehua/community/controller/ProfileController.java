@@ -1,7 +1,6 @@
 package cn.niudehua.community.controller;
 
 import cn.niudehua.community.dto.PaginationDTO;
-import cn.niudehua.community.mapper.UserMapper;
 import cn.niudehua.community.model.User;
 import cn.niudehua.community.service.QuestionService;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -24,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequiredArgsConstructor(onConstructor = @_(@Autowired))
 public class ProfileController {
-    private final UserMapper userMapper;
     private final QuestionService questionService;
 
     /**
@@ -44,21 +41,7 @@ public class ProfileController {
             @RequestParam(name = "size", defaultValue = "3") Integer size,
             Model model,
             HttpServletRequest httpServletRequest) {
-        User user = null;
-        Cookie[] cookies = httpServletRequest.getCookies();
-        if (!ObjectUtils.isEmpty(cookies)) {
-            for (Cookie cookie : cookies) {
-                // 通过cookie获取用户信息并将用户信息保存到session
-                if ("token".equals(cookie.getName())) {
-                    user = userMapper.findByToken(cookie.getValue());
-                    if (user != null) {
-                        httpServletRequest.getSession().setAttribute("gitHubUser", user);
-                    }
-                    break;
-                }
-            }
-        }
-
+        User user = (User) httpServletRequest.getSession().getAttribute("gitHubUser");
         if (ObjectUtils.isEmpty(user)) {
             return "redirect:/";
         }
