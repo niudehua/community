@@ -5,12 +5,13 @@ import cn.niudehua.community.dto.QuestionDTO;
 import cn.niudehua.community.mapper.QuestionMapper;
 import cn.niudehua.community.mapper.UserMapper;
 import cn.niudehua.community.model.Question;
+import cn.niudehua.community.model.QuestionExample;
 import cn.niudehua.community.model.User;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -37,7 +38,8 @@ public class QuestionService {
     public PaginationDTO list(Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
         // 查出总条数
-        Integer totalCount = questionMapper.count();
+//        Integer totalCount = Math.toIntExact(questionMapper.countByExample(new QuestionExample()));
+        Integer totalCount = (int) questionMapper.countByExample(new QuestionExample());
         // 设置分页相关属性
         paginationDTO.setPagination(totalCount, page, size);
         // 判断page容错 小于1时设置为1，大于总页数时设置为总页数
@@ -49,14 +51,14 @@ public class QuestionService {
         }
         // limit查询
         Integer offset = size * (page - 1);
-        List<Question> questionList = questionMapper.list(offset, size);
+        List<Question> questionList = questionMapper.selectByExampleWithRowbounds(new QuestionExample(), new RowBounds(offset, size));
         //关联user表查询
         List<QuestionDTO> questionDTOS = new ArrayList<>();
         for (Question question : questionList) {
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question, questionDTO);
             // 通过Question中的creator字段查询出相关联的User封装到QuestionDTO中
-            User user = userMapper.findById(question.getCreator());
+            User user = userMapper.selectByPrimaryKey(question.getCreator());
             questionDTO.setUser(user);
             questionDTOS.add(questionDTO);
         }
@@ -75,7 +77,10 @@ public class QuestionService {
     public PaginationDTO list(Integer userId, Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
         // 查出总条数
-        Integer totalCount = questionMapper.countByCreator(userId);
+//        Integer totalCount = questionMapper.countByCreator(userId);
+        QuestionExample questionExample = new QuestionExample();
+        questionExample.createCriteria().andCreatorEqualTo(userId);
+        Integer totalCount = Math.toIntExact(questionMapper.countByExample(questionExample));
         // 设置分页相关属性
         paginationDTO.setPagination(totalCount, page, size);
         // 判断page容错 小于1时设置为1，大于总页数时设置为总页数
@@ -87,14 +92,16 @@ public class QuestionService {
         }
         // limit查询
         Integer offset = size * (page - 1);
-        List<Question> questionList = questionMapper.listByCreator(userId, offset, size);
+        QuestionExample example = new QuestionExample();
+        example.createCriteria().andCreatorEqualTo(userId);
+        List<Question> questionList = questionMapper.selectByExampleWithRowbounds(example, new RowBounds(offset, size));
         //关联user表查询
         List<QuestionDTO> questionDTOS = new ArrayList<>();
         for (Question question : questionList) {
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question, questionDTO);
             // 通过Question中的creator字段查询出相关联的User封装到QuestionDTO中
-            User user = userMapper.findById(question.getCreator());
+            User user = userMapper.selectByPrimaryKey(question.getCreator());
             questionDTO.setUser(user);
             questionDTOS.add(questionDTO);
         }
@@ -109,11 +116,11 @@ public class QuestionService {
      * @return questionDTO
      */
     public QuestionDTO getById(Integer id) {
-        Question question = questionMapper.getById(id);
+        Question question = questionMapper.selectByPrimaryKey(id);
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
         //查询关联的用户
-        User user = userMapper.findById(question.getCreator());
+        User user = userMapper.selectByPrimaryKey(question.getCreator());
         questionDTO.setUser(user);
         return questionDTO;
     }
@@ -130,7 +137,7 @@ public class QuestionService {
         } else {
             //更新
             question.setGmtModified(System.currentTimeMillis());
-            questionMapper.update(question);
+            questionMapper.updateByPrimaryKeySelective(question);
         }
 
     }

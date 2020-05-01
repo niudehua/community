@@ -2,16 +2,19 @@ package cn.niudehua.community.intercepter;
 
 import cn.niudehua.community.mapper.UserMapper;
 import cn.niudehua.community.model.User;
+import cn.niudehua.community.model.UserExample;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @author: deng
@@ -37,9 +40,11 @@ public class SessionInterceptor implements HandlerInterceptor {
             for (Cookie cookie : cookies) {
                 // 通过cookie获取用户信息并将用户信息保存到session
                 if ("token".equals(cookie.getName())) {
-                    User user = userMapper.findByToken(cookie.getValue());
-                    if (user != null) {
-                        request.getSession().setAttribute("gitHubUser", user);
+                    UserExample example = new UserExample();
+                    example.createCriteria().andTokenEqualTo(cookie.getValue());
+                    List<User> users = userMapper.selectByExample(example);
+                    if (!CollectionUtils.isEmpty(users)) {
+                        request.getSession().setAttribute("gitHubUser", users.get(0));
                     }
                     break;
                 }

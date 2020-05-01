@@ -29,6 +29,10 @@
 
 [Spring Web MVC](https://docs.spring.io/spring/docs/5.2.5.RELEASE/spring-framework-reference/web.html)
 
+[MyBatis Generator自生成](http://mybatis.org/generator/)
+
+[分页插件org.mybatis.generator.plugins.RowBoundsPlugin](http://mybatis.org/generator/reference/plugins.html)
+
 ## 工具
 [Git](https://git-scm.com/downloads)
 

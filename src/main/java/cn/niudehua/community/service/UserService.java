@@ -2,10 +2,13 @@ package cn.niudehua.community.service;
 
 import cn.niudehua.community.mapper.UserMapper;
 import cn.niudehua.community.model.User;
+import cn.niudehua.community.model.UserExample;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
 
 /**
  * @author: deng
@@ -24,19 +27,21 @@ public class UserService {
      */
     public void updateOrCreateUser(User user) {
         //通过accountId 查询 数据库
-        User userDb = userMapper.findByAccountId(user.getAccountId());
-        if (!ObjectUtils.isEmpty(userDb)) {
-            // 如果有更新
-            userDb.setToken(user.getToken());
-            userDb.setGmtModified(System.currentTimeMillis());
-            userDb.setAvatarUrl(user.getAvatarUrl());
-            userDb.setBio(user.getBio());
-            userDb.setName(user.getName());
-            userMapper.update(userDb);
-        } else {
+        UserExample example = new UserExample();
+        example.createCriteria().andAccountIdEqualTo(user.getAccountId());
+        List<User> users = userMapper.selectByExample(example);
+
+        if (CollectionUtils.isEmpty(users)) {
             // 如果没有新增
             user.setGmtModified(System.currentTimeMillis());
             userMapper.insert(user);
+
+        } else {
+            // 如果有更新
+            // 创建时间不更新
+            user.setGmtModified(users.get(0).getGmtCreat());
+            user.setId(users.get(0).getId());
+            userMapper.updateByPrimaryKeySelective(user);
         }
     }
 }
