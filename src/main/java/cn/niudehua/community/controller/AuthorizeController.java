@@ -5,6 +5,7 @@ import cn.niudehua.community.dto.GitHubUser;
 import cn.niudehua.community.mapper.UserMapper;
 import cn.niudehua.community.model.User;
 import cn.niudehua.community.provider.GithubProvider;
+import cn.niudehua.community.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
@@ -24,21 +26,24 @@ import java.util.UUID;
 @Controller
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthorizeController {
-
     private final GithubProvider githubProvider;
-
-    private final UserMapper userMapper;
+    private final UserService userService;
 
     @Value("${github.client.id}")
     private String clientId;
-
     @Value("${github.client.secret}")
     private String clientSecret;
-
     @Value("${github.redirect.uri}")
     private String redirectUri;
 
-
+    /**
+     * github鉴权回调 获取gitHubUser信息存放数据库
+     *
+     * @param code                The code you received as a response to Step 1
+     * @param state               The unguessable random string you provided in Step 1
+     * @param httpServletResponse httpServletResponse
+     * @return 返回到首页
+     */
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
@@ -49,8 +54,10 @@ public class AuthorizeController {
         accessTokenDTO.setCode(code);
         accessTokenDTO.setRedirect_uri(redirectUri);
         accessTokenDTO.setState(state);
+        //获取 accessToken
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
-         GitHubUser gitHubUser = githubProvider.getGitHubUser(accessToken);
+        //获取gitHub User信息
+        GitHubUser gitHubUser = githubProvider.getGitHubUser(accessToken);
         if (gitHubUser != null) {
             //登录成功 写入cookie和session
             User user = new User();
@@ -60,16 +67,21 @@ public class AuthorizeController {
             String token = UUID.randomUUID().toString();
             user.setToken(token);
             user.setGmtCreat(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreat());
             user.setAvatarUrl(gitHubUser.getAvatarUrl());
-            userMapper.insert(user);
+            userService.updateOrCreateUser(user);
             httpServletResponse.addCookie(new Cookie("token", token));
         }
-
-        //登录失败，重新登录
         return "redirect:/";
-
     }
 
-
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        // 清除session
+        httpServletRequest.getSession().removeAttribute("gitHubUser");
+        // 清除token
+        Cookie emptyToken = new Cookie("token", null);
+        emptyToken.setMaxAge(0);
+        httpServletResponse.addCookie(emptyToken);
+        return "redirect:/";
+    }
 }

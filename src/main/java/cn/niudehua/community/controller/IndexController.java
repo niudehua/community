@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class IndexController {
     private final QuestionService questionService;
 
-
     /**
      * @param page  当前页
      * @param size  每页数据条数
@@ -31,7 +30,6 @@ public class IndexController {
             @RequestParam(name = "page", defaultValue = "1") Integer page,
             @RequestParam(name = "size", defaultValue = "3") Integer size
             , Model model) {
-
         //获取问题列表
         PaginationDTO paginationDTO = questionService.list(page, size);
         model.addAttribute("paginationDTO", paginationDTO);

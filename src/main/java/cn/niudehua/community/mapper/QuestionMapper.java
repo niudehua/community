@@ -63,4 +63,13 @@ public interface QuestionMapper {
      */
     @Select("select count(1) from question where creator = #{userId}")
     Integer countByCreator(@Param("userId") Integer userId);
+
+    /**
+     * 通过id查询
+     *
+     * @param id id
+     * @return QuestionById
+     */
+    @Select("select * from question where id = #{id}")
+    Question getById(@Param("id") Integer id);
 }

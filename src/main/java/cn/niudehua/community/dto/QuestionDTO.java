@@ -11,6 +11,10 @@ import lombok.Data;
 @Data
 public class QuestionDTO {
     /**
+     * 自增id
+     */
+    private Integer id;
+    /**
      * 问题标题
      */
     private String title;

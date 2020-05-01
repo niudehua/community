@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
 <head>
-    <title th:text="'嘟嘟社区-'+${sectionName}"></title>
+    <title th:text="${sectionName}+'-嘟嘟社区'"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-theme.css">
@@ -18,11 +18,12 @@
             <hr>
             <div class="media" th:each="question:${paginationDTO.data}">
                 <div class="media-left">
+                    <!--TODO 补充默认网络头像 -->
                     <img class="media-object img_avatar_url"
-                         th:src="${question.user.avatarUrl}">
+                         th:src="${question.user.avatarUrl}" alt="网络头像" src=""/>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <h4 class="media-heading" th:text="${question.title}" ></h4>
                     <span th:text="${question.description}"></span><br>
                     <span class="text-desc">
                     <span th:text="${question.commentCount==null?0:question.commentCount}"> </span>个评论 •
@@ -40,7 +41,7 @@
                         </a>
                     </li>
                     <li th:if="${paginationDTO.showPrevious}">
-                        <a th:href="@{${section}(page=${paginationDTO.page-1})}"
+                        <a th:href="@{${section}(page=${(paginationDTO.page)-1})}"
                            aria-label="Previous">
                             <span aria-hidden="true">&lt;</span>
                         </a>
@@ -58,7 +59,8 @@
                         </a>
                     </li>
                     <li th:if="${paginationDTO.showLastPage}">
-                        <a th:href="@{${section}(page=${paginationDTO.totalPage})}" aria-label="Next">
+                        <a th:href="@{${section}(page=${paginationDTO.totalPage})}"
+                           aria-label="Next">
                             <span aria-hidden="true">&gt;&gt;</span>
                         </a>
                     </li>

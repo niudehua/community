@@ -1,14 +1,17 @@
 package cn.niudehua.community.controller;
 
+import cn.niudehua.community.dto.QuestionDTO;
 import cn.niudehua.community.mapper.QuestionMapper;
 import cn.niudehua.community.model.Question;
 import cn.niudehua.community.model.User;
+import cn.niudehua.community.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -22,7 +25,18 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PublishController {
+    private final QuestionService questionService;
     private final QuestionMapper questionMapper;
+
+    @GetMapping("/publish/{id}")
+    public String edit(@PathVariable(name = "id", required = false) Integer id, Model model) {
+        QuestionDTO questionDTO = questionService.getById(id);
+        model.addAttribute("title", questionDTO.getTitle());
+        model.addAttribute("description", questionDTO.getDescription());
+        model.addAttribute("tag", questionDTO.getTag());
+        model.addAttribute("id", id);
+        return "publish";
+    }
 
     /**
      * 问题发布
@@ -30,7 +44,14 @@ public class PublishController {
      * @return 发布页面
      */
     @GetMapping(value = "/publish")
-    public String publish() {
+    public String publish(HttpServletRequest httpServletRequest, Model model) {
+        User user = (User) httpServletRequest.getSession().getAttribute("gitHubUser");
+        // 用户未登录，跳转回发布页面
+        if (user == null) {
+            model.addAttribute("error", "用户未登录");
+            return "publish";
+        }
+
         return "publish";
     }
 

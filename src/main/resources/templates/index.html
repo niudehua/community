@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
 <head>
     <title>嘟嘟社区</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -19,11 +19,12 @@
             <hr>
             <div class="media" th:each="question:${paginationDTO.data}">
                 <div class="media-left">
+                    <!-- TODO 补充默认网络头像 -->
                     <img class="media-object img_avatar_url"
-                         th:src="${question.user.avatarUrl}">
+                         th:src="${question.user.avatarUrl}" alt="网络头像" src="">
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <a  th:href="@{'/question/'+${question.id}}"><h4 class="media-heading" th:text="${question.title}"  ></h4></a>
                     <span th:text="${question.description}"></span><br>
                     <span class="text-desc">
                     <span class="text-desc" th:text="${question.user.name}">发表了文章 • </span>
@@ -42,7 +43,7 @@
                         </a>
                     </li>
                     <li th:if="${paginationDTO.showPrevious}">
-                        <a th:href="@{'/'(page=${paginationDTO.page-1})}" aria-label="Previous">
+                        <a th:href="@{'/'(page=${(paginationDTO.page)-1})}" aria-label="Previous">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>

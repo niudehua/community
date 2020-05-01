@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * @author: deng
@@ -38,4 +39,21 @@ public interface UserMapper {
      */
     @Select("select * from user where id = #{id}")
     User findById(Integer id);
+
+    /**
+     * 通过accountId查找用户
+     *
+     * @param accountId 账户名
+     * @return user
+     */
+    @Select("select * from user where account_id = #{accountId}")
+    User findByAccountId(@Param("accountId") String accountId);
+
+    /**
+     * 更新user
+     *
+     * @param user user
+     */
+    @Update("update user set name=#{user.name},token=#{user.token},gmt_modified=#{user.gmtModified},bio=#{user.bio},avatar_url=#{user.avatarUrl}")
+    void update(@Param("user") User user);
 }

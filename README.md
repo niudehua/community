@@ -7,7 +7,7 @@
 
 [Spring文档](https://spring.io/guides)
 
-[Thymeleaf文档](https://spring.io/guides/gs/serving-web-content)
+[Thymeleaf整合Spring MVC文档](https://spring.io/guides/gs/serving-web-content)
 
 [BootStrap文档](https://v3.bootcss.com/getting-started)
  
@@ -22,6 +22,8 @@
 [MyBatis整合SpringBoot](http://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/)
 
 [Flayway Maven Plugin](https://flywaydb.org/getstarted/firststeps/maven)
+
+[Thymeleaf使用教程](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html)
 
 [Lombok插件](https://projectlombok.org/features/all)
 
