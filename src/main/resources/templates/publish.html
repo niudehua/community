@@ -19,7 +19,7 @@
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
             <hr>
             <form action="/publish" method="post">
-                <input type="hidden" th:text="${id}">
+                <input type="hidden" id="id" name="id" th:value="${id}">
                 <div class="form-group">
                     <label for="title">问题标题（简明扼要）：</label>
                     <input type="text" class="form-control" id="title" name="title"
@@ -44,8 +44,6 @@
                 <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                     <button type="submit" class="btn btn-success btn-publish">确认发起</button>
                 </div>
-
-
             </form>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">

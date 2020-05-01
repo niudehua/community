@@ -24,6 +24,7 @@ public class SessionInterceptor implements HandlerInterceptor {
     private final UserMapper userMapper;
 
     /**
+     * 会话拦截器-处理登录问题
      * @param request  HttpServletRequest
      * @param response HttpServletResponse
      * @param handler  handler
@@ -45,6 +46,5 @@ public class SessionInterceptor implements HandlerInterceptor {
             }
         }
         return true;
-
     }
 }

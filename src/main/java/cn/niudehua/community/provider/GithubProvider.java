@@ -62,7 +62,7 @@ public class GithubProvider {
             String string = Objects.requireNonNull(response.body()).string();
             GitHubUser gitHubUser = JSON.parseObject(string, GitHubUser.class);
             return gitHubUser;
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
         return null;
     }

@@ -54,6 +54,6 @@ public interface UserMapper {
      *
      * @param user user
      */
-    @Update("update user set name=#{user.name},token=#{user.token},gmt_modified=#{user.gmtModified},bio=#{user.bio},avatar_url=#{user.avatarUrl}")
+    @Update("update user set name=#{user.name},token=#{user.token},gmt_modified=#{user.gmtModified},bio=#{user.bio},avatar_url=#{user.avatarUrl} where id =#{user.id}" )
     void update(@Param("user") User user);
 }

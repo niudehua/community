@@ -32,7 +32,7 @@ public class ProfileController {
      * @param size               每页数据条数
      * @param model              视图模型
      * @param httpServletRequest http Servlet请求
-     * @return 个人资料页
+     * @return 跳转到个人资料页
      */
     @GetMapping("/profile/{action}")
     public String profile(

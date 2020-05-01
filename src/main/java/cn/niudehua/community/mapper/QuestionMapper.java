@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -72,4 +73,12 @@ public interface QuestionMapper {
      */
     @Select("select * from question where id = #{id}")
     Question getById(@Param("id") Integer id);
+
+    /**
+     * 更新question
+     *
+     * @param question question
+     */
+    @Update("update question set title=#{question.title}, description=#{question.description}, gmt_modified=#{question.gmtModified}, tag=#{question.tag} where id = #{question.id}")
+    void update(@Param("question") Question question);
 }

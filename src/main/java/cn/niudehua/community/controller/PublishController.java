@@ -28,8 +28,15 @@ public class PublishController {
     private final QuestionService questionService;
     private final QuestionMapper questionMapper;
 
+    /**
+     * 问题编辑修改
+     *
+     * @param id    questionId
+     * @param model 视图模型
+     * @return 跳转到编辑发布页面
+     */
     @GetMapping("/publish/{id}")
-    public String edit(@PathVariable(name = "id", required = false) Integer id, Model model) {
+    public String edit(@PathVariable(name = "id") Integer id, Model model) {
         QuestionDTO questionDTO = questionService.getById(id);
         model.addAttribute("title", questionDTO.getTitle());
         model.addAttribute("description", questionDTO.getDescription());
@@ -41,7 +48,7 @@ public class PublishController {
     /**
      * 问题发布
      *
-     * @return 发布页面
+     * @return 跳转到发布页面
      */
     @GetMapping(value = "/publish")
     public String publish(HttpServletRequest httpServletRequest, Model model) {
@@ -63,10 +70,11 @@ public class PublishController {
      * @param tag                标签
      * @param httpServletRequest http Servlet请求
      * @param model              视图模型
-     * @return 发布页面
+     * @return 重定向到发布页面
      */
     @PostMapping(value = "/publish")
     public String doPublish(
+            @RequestParam(name = "id", required = false) Integer id,
             @RequestParam(name = "title") String title,
             @RequestParam(name = "description") String description,
             @RequestParam(name = "tag") String tag,
@@ -98,13 +106,14 @@ public class PublishController {
         }
         // 储存发布的问题并重定向到index页面
         Question question = new Question();
+        question.setId(id);
         question.setTitle(title);
         question.setDescription(description);
         question.setGmtCreat(System.currentTimeMillis());
         question.setGmtModified(question.getGmtCreat());
         question.setCreator(user.getId());
         question.setTag(tag);
-        questionMapper.insert(question);
+        questionService.updateOrCreate(question);
         return "redirect:/";
     }
 }

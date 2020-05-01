@@ -2,7 +2,6 @@ package cn.niudehua.community.controller;
 
 import cn.niudehua.community.dto.AccessTokenDTO;
 import cn.niudehua.community.dto.GitHubUser;
-import cn.niudehua.community.mapper.UserMapper;
 import cn.niudehua.community.model.User;
 import cn.niudehua.community.provider.GithubProvider;
 import cn.niudehua.community.service.UserService;
@@ -42,7 +41,7 @@ public class AuthorizeController {
      * @param code                The code you received as a response to Step 1
      * @param state               The unguessable random string you provided in Step 1
      * @param httpServletResponse httpServletResponse
-     * @return 返回到首页
+     * @return 重定向到首页
      */
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
@@ -74,6 +73,13 @@ public class AuthorizeController {
         return "redirect:/";
     }
 
+    /**
+     * 用户登出
+     *
+     * @param httpServletRequest  httpServletRequest
+     * @param httpServletResponse httpServletResponse
+     * @return 重定向到首页
+     */
     @GetMapping("/logout")
     public String logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         // 清除session

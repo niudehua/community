@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,12 +102,36 @@ public class QuestionService {
         return paginationDTO;
     }
 
+    /**
+     * 通过questionId查询问题详情
+     *
+     * @param id questionId
+     * @return questionDTO
+     */
     public QuestionDTO getById(Integer id) {
         Question question = questionMapper.getById(id);
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
+        //查询关联的用户
         User user = userMapper.findById(question.getCreator());
         questionDTO.setUser(user);
         return questionDTO;
+    }
+
+    /**
+     * 更新或创建question
+     *
+     * @param question question
+     */
+    public void updateOrCreate(Question question) {
+        if (StringUtils.isEmpty(question.getId())) {
+            //id不存在
+            questionMapper.insert(question);
+        } else {
+            //更新
+            question.setGmtModified(System.currentTimeMillis());
+            questionMapper.update(question);
+        }
+
     }
 }
