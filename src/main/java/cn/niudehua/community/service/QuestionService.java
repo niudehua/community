@@ -2,6 +2,8 @@ package cn.niudehua.community.service;
 
 import cn.niudehua.community.dto.PaginationDTO;
 import cn.niudehua.community.dto.QuestionDTO;
+import cn.niudehua.community.exception.CustomizeErrorCode;
+import cn.niudehua.community.exception.CustomizeException;
 import cn.niudehua.community.mapper.QuestionMapper;
 import cn.niudehua.community.mapper.UserMapper;
 import cn.niudehua.community.model.Question;
@@ -12,6 +14,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -38,8 +41,7 @@ public class QuestionService {
     public PaginationDTO list(Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
         // 查出总条数
-//        Integer totalCount = Math.toIntExact(questionMapper.countByExample(new QuestionExample()));
-        Integer totalCount = (int) questionMapper.countByExample(new QuestionExample());
+        Integer totalCount = Math.toIntExact(questionMapper.countByExample(new QuestionExample()));
         // 设置分页相关属性
         paginationDTO.setPagination(totalCount, page, size);
         // 判断page容错 小于1时设置为1，大于总页数时设置为总页数
@@ -77,7 +79,6 @@ public class QuestionService {
     public PaginationDTO list(Integer userId, Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
         // 查出总条数
-//        Integer totalCount = questionMapper.countByCreator(userId);
         QuestionExample questionExample = new QuestionExample();
         questionExample.createCriteria().andCreatorEqualTo(userId);
         Integer totalCount = Math.toIntExact(questionMapper.countByExample(questionExample));
@@ -117,6 +118,9 @@ public class QuestionService {
      */
     public QuestionDTO getById(Integer id) {
         Question question = questionMapper.selectByPrimaryKey(id);
+        if (ObjectUtils.isEmpty(question)) {
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUNT);
+        }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
         //查询关联的用户
@@ -137,7 +141,10 @@ public class QuestionService {
         } else {
             //更新
             question.setGmtModified(System.currentTimeMillis());
-            questionMapper.updateByPrimaryKeySelective(question);
+            int i = questionMapper.updateByPrimaryKeySelective(question);
+            if (i == 0) {
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUNT);
+            }
         }
 
     }

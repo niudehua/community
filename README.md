@@ -33,6 +33,8 @@
 
 [分页插件org.mybatis.generator.plugins.RowBoundsPlugin](http://mybatis.org/generator/reference/plugins.html)
 
+[Spring异常错误处理](https://docs.spring.io/spring-boot/docs/2.2.6.RELEASE/reference/html/spring-boot-features.html#boot-features-error-handling)
+
 ## 工具
 [Git](https://git-scm.com/downloads)
 
