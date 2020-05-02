@@ -30,6 +30,8 @@ public class QuestionController {
     public String question(@PathVariable(name = "id") Integer id,
                            Model model) {
         QuestionDTO questionDTO = questionService.getById(id);
+        //每次访问问题页面就添加浏览数
+        questionService.incViewCount(id);
         model.addAttribute("questionDTO", questionDTO);
         return "question";
     }

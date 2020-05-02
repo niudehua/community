@@ -136,6 +136,9 @@ public class QuestionService {
      */
     public void updateOrCreate(Question question) {
         if (StringUtils.isEmpty(question.getId())) {
+            question.setViewCount(0);
+            question.setLikeCount(0);
+            question.setCommentCount(0);
             //id不存在
             questionMapper.insert(question);
         } else {
@@ -147,5 +150,16 @@ public class QuestionService {
             }
         }
 
+    }
+
+    /**
+     * 增加问题浏览数
+     * @param id questionId
+     */
+    public void incViewCount(Integer id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionMapper.incViewCount(question);
     }
 }

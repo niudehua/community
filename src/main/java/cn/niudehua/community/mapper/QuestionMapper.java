@@ -135,4 +135,10 @@ public interface QuestionMapper {
      * @mbg.generated Sat May 02 00:25:48 CST 2020
      */
     int updateByPrimaryKey(Question record);
+
+    /**
+     * 增加问题浏览数
+     * @param record question
+     */
+    void incViewCount(Question record);
 }
