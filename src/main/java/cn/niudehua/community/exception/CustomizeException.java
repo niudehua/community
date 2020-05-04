@@ -6,18 +6,23 @@ package cn.niudehua.community.exception;
  * @desc: 定制异常
  */
 public class CustomizeException extends RuntimeException {
+    private final Integer code;
     private final String message;
 
+
     public CustomizeException(ICustomizeErrorCode customizeErrorCode) {
+        code = customizeErrorCode.getCode();
         message = customizeErrorCode.getMessage();
     }
 
-    public CustomizeException(String message) {
-        this.message = message;
+
+    public Integer getCode() {
+        return code;
     }
 
     @Override
     public String getMessage() {
         return message;
     }
+
 }

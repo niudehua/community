@@ -20,7 +20,7 @@ import java.util.UUID;
 /**
  * @author: deng
  * @datetime: 2020/4/26 11:39 下午
- * @desc:
+ * @desc: github授权控制
  */
 @Controller
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))

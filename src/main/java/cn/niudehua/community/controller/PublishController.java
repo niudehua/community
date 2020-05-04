@@ -1,7 +1,6 @@
 package cn.niudehua.community.controller;
 
 import cn.niudehua.community.dto.QuestionDTO;
-import cn.niudehua.community.mapper.QuestionMapper;
 import cn.niudehua.community.model.Question;
 import cn.niudehua.community.model.User;
 import cn.niudehua.community.service.QuestionService;
@@ -26,7 +25,6 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PublishController {
     private final QuestionService questionService;
-    private final QuestionMapper questionMapper;
 
     /**
      * 问题编辑修改
@@ -36,7 +34,7 @@ public class PublishController {
      * @return 跳转到编辑发布页面
      */
     @GetMapping("/publish/{id}")
-    public String edit(@PathVariable(name = "id") Integer id, Model model) {
+    public String edit(@PathVariable(name = "id") Long id, Model model) {
         QuestionDTO questionDTO = questionService.getById(id);
         model.addAttribute("title", questionDTO.getTitle());
         model.addAttribute("description", questionDTO.getDescription());
@@ -74,7 +72,7 @@ public class PublishController {
      */
     @PostMapping(value = "/publish")
     public String doPublish(
-            @RequestParam(name = "id", required = false) Integer id,
+            @RequestParam(name = "id", required = false) Long id,
             @RequestParam(name = "title") String title,
             @RequestParam(name = "description") String description,
             @RequestParam(name = "tag") String tag,

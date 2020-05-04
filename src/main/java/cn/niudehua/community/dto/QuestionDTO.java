@@ -13,7 +13,7 @@ public class QuestionDTO {
     /**
      * 自增id
      */
-    private Integer id;
+    private Long id;
     /**
      * 问题标题
      */
@@ -33,7 +33,7 @@ public class QuestionDTO {
     /**
      * 创建用户
      */
-    private Integer creator;
+    private Long creator;
     /**
      * 评论次数
      */

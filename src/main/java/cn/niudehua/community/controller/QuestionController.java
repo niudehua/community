@@ -27,7 +27,7 @@ public class QuestionController {
      * @return 跳转到问题详情页
      */
     @GetMapping(value = "/question/{id}")
-    public String question(@PathVariable(name = "id") Integer id,
+    public String question(@PathVariable(name = "id") Long id,
                            Model model) {
         QuestionDTO questionDTO = questionService.getById(id);
         //每次访问问题页面就添加浏览数

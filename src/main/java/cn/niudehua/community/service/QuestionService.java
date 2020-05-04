@@ -4,6 +4,7 @@ import cn.niudehua.community.dto.PaginationDTO;
 import cn.niudehua.community.dto.QuestionDTO;
 import cn.niudehua.community.exception.CustomizeErrorCode;
 import cn.niudehua.community.exception.CustomizeException;
+import cn.niudehua.community.mapper.QuestionExtMapper;
 import cn.niudehua.community.mapper.QuestionMapper;
 import cn.niudehua.community.mapper.UserMapper;
 import cn.niudehua.community.model.Question;
@@ -30,6 +31,8 @@ import java.util.List;
 public class QuestionService {
     private final UserMapper userMapper;
     private final QuestionMapper questionMapper;
+    private final QuestionExtMapper questionExtMapper;
+
 
     /**
      * 查询出展示到首页的QuestionDTO模型
@@ -53,7 +56,7 @@ public class QuestionService {
         }
         // limit查询
         Integer offset = size * (page - 1);
-        List<Question> questionList = questionMapper.selectByExampleWithRowbounds(new QuestionExample(), new RowBounds(offset, size));
+        List<Question> questionList = questionExtMapper.selectByExampleWithRowbounds(new QuestionExample(), new RowBounds(offset, size));
         //关联user表查询
         List<QuestionDTO> questionDTOS = new ArrayList<>();
         for (Question question : questionList) {
@@ -76,7 +79,7 @@ public class QuestionService {
      * @param size   每页数据条数
      * @return List<QuestionDTO>
      */
-    public PaginationDTO list(Integer userId, Integer page, Integer size) {
+    public PaginationDTO list(Long userId, Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
         // 查出总条数
         QuestionExample questionExample = new QuestionExample();
@@ -95,7 +98,7 @@ public class QuestionService {
         Integer offset = size * (page - 1);
         QuestionExample example = new QuestionExample();
         example.createCriteria().andCreatorEqualTo(userId);
-        List<Question> questionList = questionMapper.selectByExampleWithRowbounds(example, new RowBounds(offset, size));
+        List<Question> questionList = questionExtMapper.selectByExampleWithRowbounds(example, new RowBounds(offset, size));
         //关联user表查询
         List<QuestionDTO> questionDTOS = new ArrayList<>();
         for (Question question : questionList) {
@@ -116,10 +119,10 @@ public class QuestionService {
      * @param id questionId
      * @return questionDTO
      */
-    public QuestionDTO getById(Integer id) {
+    public QuestionDTO getById(Long id) {
         Question question = questionMapper.selectByPrimaryKey(id);
         if (ObjectUtils.isEmpty(question)) {
-            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUNT);
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
@@ -146,7 +149,7 @@ public class QuestionService {
             question.setGmtModified(System.currentTimeMillis());
             int i = questionMapper.updateByPrimaryKeySelective(question);
             if (i == 0) {
-                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUNT);
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
         }
 
@@ -154,12 +157,13 @@ public class QuestionService {
 
     /**
      * 增加问题浏览数
+     *
      * @param id questionId
      */
-    public void incViewCount(Integer id) {
+    public void incViewCount(Long id) {
         Question question = new Question();
         question.setId(id);
         question.setViewCount(1);
-        questionMapper.incViewCount(question);
+        questionExtMapper.incViewCount(question);
     }
 }

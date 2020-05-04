@@ -7,6 +7,12 @@ package cn.niudehua.community.exception;
  */
 public interface ICustomizeErrorCode {
     /**
+     * 获取错误码
+     * @return ErrorCode
+     */
+    Integer getCode();
+
+    /**
      * 获取错误信息
      *
      * @return ErrorMessage
