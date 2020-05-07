@@ -35,6 +35,8 @@
 
 [Spring异常错误处理](https://docs.spring.io/spring-boot/docs/2.2.6.RELEASE/reference/html/spring-boot-features.html#boot-features-error-handling)
 
+[JQuery文档](https://www.runoob.com/jquery/jquery-tutorial.html)
+
 ## 工具
 [Git](https://git-scm.com/downloads)
 
@@ -42,24 +44,13 @@
 
 [IntelliJ IDEA](https://www.jetbrains.com/idea/download)
 
-## 数据库sql
-```sql
-create table USER
-(
-	ID INT auto_increment,
-	TOKEN CHAR(36),
-	NAME VARCHAR(50),
-	ACCOUNT_ID VARCHAR(100),
-	GMT_CREAT BIGINT,
-	GMT_MODIFIED BIGINT,
-	constraint USER_PK
-		primary key (ID)
-);
-```
+
 ## Flayway使用
 ```bash
 mvn flyway:migrate
-
+```
+## MyBatis Generator
+```
 mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate 
 
 ```

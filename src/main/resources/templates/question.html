@@ -8,20 +8,22 @@
     <link rel="stylesheet" href="/css/community.css">
     <script src="/js/jquery-3.5.0.min.js" type="application/javascript"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/js/community.js" type="application/javascript"></script>
 </head>
 <body>
 <div th:insert="~{navigation :: nav}"></div>
 <div class="container-fluid main">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-            <h3><span th:text="${questionDTO.title}"></span></h3>
-            <span class="text-desc col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h3><span th:text="${questionDTO.title}"></span></h3>
+                <span>
             作者：<span th:text="${questionDTO.user.name}"></span> ｜
             发布时间：<span
-                    th:text="${#dates.format(questionDTO.gmtModified, 'yyyy年MM月dd HH:mm:ss')}"></span> ｜
+                        th:text="${#dates.format(questionDTO.gmtModified, 'yyyy年MM月dd HH:mm:ss')}"></span> ｜
             阅读数：<span th:text="${questionDTO.viewCount==null?0:questionDTO.viewCount}"> </span>
             </span>
-
+            </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <hr>
                 <span class="text-desc" th:text="${questionDTO.description}"></span>
@@ -32,12 +34,30 @@
                     编辑
                 </a>
             </div>
-
-
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="comment_section">
+                <hr>
+                <div class=" media-left  text-desc">
+                    <h6 th:text="${questionDTO.user.name}"></h6>
+                </div>
+                <div class="media-body">
+                    <img class="img_avatar_url" th:src="${questionDTO.user.avatarUrl}" alt="网络头像"
+                         src="">
+                </div>
+                <input type="hidden" id="question_id" th:value="${questionDTO.id}">
+                <div>
+                    <textarea class="form-control comment-text-desc" rows="3"
+                              id="comment_content"></textarea>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-success comment-btn" onclick="post()">回复
+                    </button>
+                </div>
+            </div>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h4>发起人</h4>
+
                 <div class=" media-left ">
                     <img class="img_avatar_url" th:src="${questionDTO.user.avatarUrl}" alt="网络头像"
                          src="">

@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 /**
  * @author: deng
@@ -30,10 +31,10 @@ public class CommentService {
 
     @Transactional
     public void insert(Comment comment, User commentator) {
-        if (comment.getParentId() == null || comment.getParentId() == 0) {
+        if (ObjectUtils.isEmpty(comment.getParentId()) || comment.getParentId() == 0) {
             throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
         }
-        if (comment.getType() == null || !CommentTypeEnum.isExist(comment.getType())) {
+        if (ObjectUtils.isEmpty(comment.getType()) || !CommentTypeEnum.isExist(comment.getType())) {
             throw new CustomizeException(CustomizeErrorCode.TYPE_PARAM_WRONG);
         }
         if (comment.getType().equals(CommentTypeEnum.COMMENT.getType())) {
@@ -48,7 +49,7 @@ public class CommentService {
             if (question == null) {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
-
+            comment.setCommentCount(0);
             commentMapper.insert(comment);
 
             // 增加评论数
@@ -56,13 +57,12 @@ public class CommentService {
             parentComment.setId(comment.getParentId());
             parentComment.setCommentCount(1);
             commentExtMapper.incCommentCount(parentComment);
-
             // 创建通知
 //            createNotify(comment, dbComment.getCommentator(), commentator.getName(), question.getTitle(), NotificationTypeEnum.REPLY_COMMENT, question.getId());
         } else {
             // 回复问题
             Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
-            if (question == null) {
+            if (ObjectUtils.isEmpty(question)) {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
             comment.setCommentCount(0);

@@ -33,8 +33,7 @@ public class CustomizeExceptionHandle {
                 resultDTO = ResultDTO.errorOf((CustomizeException) ex);
             } else {
                 log.error("handle error", ex);
-//                resultDTO = ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
-                resultDTO = ResultDTO.errorOf((CustomizeErrorCode) null);
+                resultDTO = ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
             }
             try {
                 httpServletResponse.setContentType("application/json");
@@ -52,8 +51,7 @@ public class CustomizeExceptionHandle {
                 model.addAttribute("message", ex.getMessage());
             } else {
                 log.error("handle error", ex);
-//                model.addAttribute("message", CustomizeErrorCode.SYS_ERROR.getMessage());
-                model.addAttribute("message", null);
+                model.addAttribute("message", CustomizeErrorCode.SYS_ERROR.getMessage());
             }
             return new ModelAndView("error");
         }

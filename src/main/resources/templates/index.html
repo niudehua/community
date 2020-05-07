@@ -9,6 +9,18 @@
     <script src="/js/jquery-3.5.0.min.js" type="application/javascript"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 </head>
+
+<script type="application/javascript">
+    window.onload = function () {
+        var closable = window.localStorage.getItem("closable");
+        debugger
+        if (closable) {
+            window.close();
+            window.localStorage.removeItem("closable");
+        }
+    }
+
+</script>
 <body>
 <div th:insert="~{navigation :: nav}"></div>
 
@@ -24,7 +36,9 @@
                          th:src="${question.user.avatarUrl}" alt="网络头像" src="">
                 </div>
                 <div class="media-body">
-                    <a  th:href="@{'/question/'+${question.id}}"><h4 class="media-heading" th:text="${question.title}"  ></h4></a>
+                    <a th:href="@{'/question/'+${question.id}}"><h4 class="media-heading"
+                                                                    th:text="${question.title}"></h4>
+                    </a>
                     <span th:text="${question.description}"></span><br>
                     <span class="text-desc">
                     <span class="text-desc" th:text="${question.user.name}">发表了文章 • </span>

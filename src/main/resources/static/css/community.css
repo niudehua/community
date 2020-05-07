@@ -16,7 +16,6 @@ body {
     width: 38px;
 }
 
-
 .text-desc {
     font-size: 12px;
     font-weight: normal;
@@ -28,6 +27,16 @@ body {
     font-size: 13px;
 }
 
-.jumbotron{
+.jumbotron {
     margin: 80px;
+}
+
+.comment-text-desc {
+    margin: 10px;
+}
+
+.comment-btn {
+    float: right;
+    margin-bottom: 10px;
+
 }
