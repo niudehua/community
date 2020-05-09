@@ -107,8 +107,8 @@ public class PublishController {
         question.setId(id);
         question.setTitle(title);
         question.setDescription(description);
-        question.setGmtCreat(System.currentTimeMillis());
-        question.setGmtModified(question.getGmtCreat());
+        question.setGmtCreate(System.currentTimeMillis());
+        question.setGmtModified(question.getGmtCreate());
         question.setCreator(user.getId());
         question.setTag(tag);
         questionService.updateOrCreate(question);

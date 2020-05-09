@@ -25,6 +25,8 @@ comment on column COMMENT.GMT_CREATE is '创建时间';
 
 comment on column COMMENT.GMT_MODIFIED is '修改时间';
 
+comment on column COMMENT.COMMENTATOR is '回复者';
+
 comment on column COMMENT.CONTENT is '评论内容';
 
 comment on column COMMENT.COMMENT_COUNT is '评论数';

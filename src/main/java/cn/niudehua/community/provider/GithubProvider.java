@@ -58,14 +58,16 @@ public class GithubProvider {
         Request request = new Request.Builder()
                 .url("https://api.github.com/user?access_token=" + token)
                 .build();
-        try (Response response = client.newCall(request).execute()) {
-            String string = Objects.requireNonNull(response.body()).string();
-            GitHubUser gitHubUser = JSON.parseObject(string, GitHubUser.class);
-            return gitHubUser;
-        } catch (IOException ignored) {
-            ignored.printStackTrace();
+        String string = null;
+        try {
+            Response response = client.newCall(request).execute();
+            string = Objects.requireNonNull(response.body()).string();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return null;
+
+        return JSON.parseObject(string, GitHubUser.class);
+
     }
 }
 

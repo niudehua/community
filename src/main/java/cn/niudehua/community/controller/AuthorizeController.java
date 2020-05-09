@@ -2,6 +2,7 @@ package cn.niudehua.community.controller;
 
 import cn.niudehua.community.dto.AccessTokenDTO;
 import cn.niudehua.community.dto.GitHubUser;
+import cn.niudehua.community.exception.CustomizeException;
 import cn.niudehua.community.model.User;
 import cn.niudehua.community.provider.GithubProvider;
 import cn.niudehua.community.service.UserService;
@@ -65,7 +66,7 @@ public class AuthorizeController {
             user.setBio(gitHubUser.getBio());
             String token = UUID.randomUUID().toString();
             user.setToken(token);
-            user.setGmtCreat(System.currentTimeMillis());
+            user.setGmtCreate(System.currentTimeMillis());
             user.setAvatarUrl(gitHubUser.getAvatarUrl());
             userService.updateOrCreateUser(user);
             httpServletResponse.addCookie(new Cookie("token", token));

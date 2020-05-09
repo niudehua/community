@@ -11,9 +11,9 @@
 </head>
 
 <script type="application/javascript">
+    <!--  从localStorage获取closable状态  -->
     window.onload = function () {
-        var closable = window.localStorage.getItem("closable");
-        debugger
+        const closable = window.localStorage.getItem("closable");
         if (closable) {
             window.close();
             window.localStorage.removeItem("closable");

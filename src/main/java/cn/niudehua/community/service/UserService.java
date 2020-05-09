@@ -39,7 +39,7 @@ public class UserService {
         } else {
             // 如果有更新
             // 创建时间不更新
-            user.setGmtModified(users.get(0).getGmtCreat());
+            user.setGmtModified(users.get(0).getGmtCreate());
             user.setId(users.get(0).getId());
             userMapper.updateByPrimaryKeySelective(user);
         }

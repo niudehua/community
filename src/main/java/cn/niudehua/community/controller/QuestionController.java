@@ -1,6 +1,8 @@
 package cn.niudehua.community.controller;
 
+import cn.niudehua.community.dto.CommentDTO;
 import cn.niudehua.community.dto.QuestionDTO;
+import cn.niudehua.community.service.CommentService;
 import cn.niudehua.community.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 /**
  * @author: deng
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class QuestionController {
     private final QuestionService questionService;
+    private final CommentService commentService;
 
     /**
      * 通过questionId 获取questionDTO 展示到问题详情页
@@ -30,9 +35,12 @@ public class QuestionController {
     public String question(@PathVariable(name = "id") Long id,
                            Model model) {
         QuestionDTO questionDTO = questionService.getById(id);
+        List<CommentDTO> commentDTOS = commentService.listByQuestionId(id);
         //每次访问问题页面就添加浏览数
         questionService.incViewCount(id);
         model.addAttribute("questionDTO", questionDTO);
+        model.addAttribute("commentDTOS", commentDTOS);
+
         return "question";
     }
 }
