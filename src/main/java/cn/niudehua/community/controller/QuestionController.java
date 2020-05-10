@@ -2,6 +2,7 @@ package cn.niudehua.community.controller;
 
 import cn.niudehua.community.dto.CommentDTO;
 import cn.niudehua.community.dto.QuestionDTO;
+import cn.niudehua.community.enums.CommentTypeEnum;
 import cn.niudehua.community.service.CommentService;
 import cn.niudehua.community.service.QuestionService;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,7 @@ public class QuestionController {
     public String question(@PathVariable(name = "id") Long id,
                            Model model) {
         QuestionDTO questionDTO = questionService.getById(id);
-        List<CommentDTO> commentDTOS = commentService.listByQuestionId(id);
+        List<CommentDTO> commentDTOS = commentService.listByTargetId(id, CommentTypeEnum.QUESTION);
         //每次访问问题页面就添加浏览数
         questionService.incViewCount(id);
         model.addAttribute("questionDTO", questionDTO);

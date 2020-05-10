@@ -25,7 +25,6 @@ import org.springframework.util.ObjectUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -42,6 +41,12 @@ public class CommentService {
     private final QuestionExtMapper questionExtMapper;
     private final UserMapper userMapper;
 
+    /**
+     * 添加评论
+     *
+     * @param comment     评论
+     * @param commentator
+     */
     @Transactional
     public void insert(Comment comment, User commentator) {
         if (ObjectUtils.isEmpty(comment.getParentId()) || comment.getParentId() == 0) {
@@ -91,12 +96,14 @@ public class CommentService {
     /**
      * 根据question查询回复
      *
-     * @param id questionId
+     * @param id              questionId
+     * @param commentTypeEnum 提交回复的类型
      * @return CommentDTO
      */
-    public List<CommentDTO> listByQuestionId(Long id) {
+    public List<CommentDTO> listByTargetId(Long id, CommentTypeEnum commentTypeEnum) {
         CommentExample commentExample = new CommentExample();
-        commentExample.createCriteria().andParentIdEqualTo(id);
+        commentExample.createCriteria().andParentIdEqualTo(id)
+                .andTypeEqualTo(commentTypeEnum.getType());
         commentExample.setOrderByClause("gmt_create desc");
         List<Comment> comments = commentMapper.selectByExample(commentExample);
         if (CollectionUtils.isEmpty(comments)) {

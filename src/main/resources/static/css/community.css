@@ -37,6 +37,21 @@ body {
 
 .comment-btn {
     float: right;
+    margin-top: 10px;
     margin-bottom: 10px;
+}
 
+.sub-comment {
+    border-radius: 5px;
+    border: 1px solid #eeeeee;
+}
+
+.sub-comment-icon-active {
+    color: #2aabd2;
+}
+
+.sub-comment-btn {
+    float: right;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

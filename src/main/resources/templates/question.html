@@ -26,6 +26,7 @@
             阅读数：<span th:text="${questionDTO.viewCount==null?0:questionDTO.viewCount}"> </span>
             </span>
             </div>
+            <!-- 编辑按钮 -->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <hr>
                 <span class="text-desc" th:text="${questionDTO.description}"></span>
@@ -38,10 +39,10 @@
 
             </div>
 
-            <!-- 回复内容列表 -->
             <h3 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 "><span
                     th:text="${questionDTO.commentCount}"/>个回复 </h3>
             <br>
+            <!-- 问题回复列表 -->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:each="comment:${commentDTOS}">
                 <hr>
                 <div class=" media-left  ">
@@ -51,15 +52,60 @@
                 <div class="media-body ">
                     <h6 class="text-desc" th:text="${comment.user.name}"></h6>
                     <div th:text="${comment.content}"></div>
-                    <span class="glyphicon glyphicon-heart-empty text-desc"
-                          aria-hidden="true"></span>
-                    <span class="glyphicon glyphicon-comment text-desc" aria-hidden="true"></span>
-                    <span class="pull-right text-desc"
-                          th:text="${#dates.format(comment.gmtModified, 'yyyy年MM月dd HH:mm:ss')}"></span>
-                </div>
+                    <div>
+                        <span class="glyphicon glyphicon-heart-empty text-desc"
+                              aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-comment text-desc"
+                              th:data-id="${comment.id}"
+                              th:id="${'sub_comment_icon-'+comment.id}"
+                              onclick="collapseComment(this)"
+                              aria-hidden="true"></span>
+                        <span class="pull-right text-desc"
+                              th:text="${#dates.format(comment.gmtModified, 'yyyy年MM月dd HH:mm:ss')}"></span>
+                    </div>
 
+                    <!-- 二级评论列表 -->
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse sub-comment"
+                         th:id="${'comment-'+comment.id}">
+                        <div class="media"
+                             th:each="comment:${commentDTOS}">
+                            <div class=" media-left  ">
+                                <img class="img_avatar_url" th:src="${comment.user.avatarUrl}"
+                                     alt="网络头像"
+                                     src="">
+                            </div>
+                            <div class="media-body ">
+                                <h6 class="text-desc" th:text="${comment.user.name}"></h6>
+                                <div th:text="${comment.content}"></div>
+
+                                <span class="glyphicon glyphicon-comment text-desc"
+                                      th:data-id="${comment.id}"
+                                      th:id="${'sub_comment_icon-'+comment.id}"
+                                      onclick="collapseComment(this)"
+                                      aria-hidden="true"></span>
+                                <span class="pull-right text-desc"
+                                      th:text="${#dates.format(comment.gmtModified, 'yyyy年MM月dd HH:mm:ss')}"></span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="评论一下..."
+                                   th:id="${'input-'+comment.id}">
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-success sub-comment-btn"
+                                    onclick="comment(this)" th:data-id="${comment.id}">评论
+                            </button>
+                        </div>
+                    </div>
+
+
+                </div>
             </div>
-            <!-- 回复框 -->
+
+            <!-- 评论回复框 -->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="comment_section">
                 <hr>
                 <div class=" media-left  text-desc">
@@ -80,6 +126,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- 右边发起人和相关问题 -->
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h4>发起人</h4>

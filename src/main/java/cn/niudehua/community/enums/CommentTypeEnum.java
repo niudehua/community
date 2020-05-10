@@ -3,7 +3,7 @@ package cn.niudehua.community.enums;
 /**
  * @author: deng
  * @datetime: 2020/5/3 11:57 上午
- * @desc:
+ * @desc: 提交回复的类型
  */
 public enum CommentTypeEnum {
     /**
