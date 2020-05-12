@@ -60,7 +60,8 @@ function comment2target(targetId, content, type) {
 }
 
 /**
- * 展开二级回复
+ * 展示二级回复
+ * @param e
  */
 function collapseComment(e) {
     const id = e.getAttribute("data-id");

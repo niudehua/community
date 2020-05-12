@@ -25,7 +25,7 @@ public class QuestionDTO {
     /**
      * 创建时间
      */
-    private Long gmtCreat;
+    private Long gmtCreate;
     /**
      * 修改时间
      */

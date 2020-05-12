@@ -39,8 +39,12 @@ public class QuestionController {
         List<CommentDTO> commentDTOS = commentService.listByTargetId(id, CommentTypeEnum.QUESTION);
         //每次访问问题页面就添加浏览数
         questionService.incViewCount(id);
+        //查询相关问题
+        List<QuestionDTO> relatedQuestions = questionService.relatedQuestion(questionDTO);
+
         model.addAttribute("questionDTO", questionDTO);
         model.addAttribute("commentDTOS", commentDTOS);
+        model.addAttribute("relatedQuestions", relatedQuestions);
 
         return "question";
     }

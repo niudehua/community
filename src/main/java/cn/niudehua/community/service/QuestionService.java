@@ -20,6 +20,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author: deng
@@ -165,5 +166,23 @@ public class QuestionService {
         question.setId(id);
         question.setViewCount(1);
         questionExtMapper.incViewCount(question);
+    }
+
+    /**
+     * 查询相关问题
+     *
+     * @param queryDTO 查询对象
+     * @return List<QuestionDTO>
+     */
+    public List<QuestionDTO> relatedQuestion(QuestionDTO queryDTO) {
+        Question question = new Question();
+        question.setId(queryDTO.getId());
+        question.setTag(queryDTO.getTag().replace("，", "|"));
+        List<Question> questions = questionExtMapper.selectRelatedQuestion(question);
+        return questions.stream().map(q -> {
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(q, questionDTO);
+            return questionDTO;
+        }).collect(Collectors.toList());
     }
 }

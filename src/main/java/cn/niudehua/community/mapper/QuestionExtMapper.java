@@ -23,4 +23,12 @@ public interface QuestionExtMapper {
     void incCommentCount(Question question);
 
     List<Question> selectByExampleWithRowbounds(QuestionExample questionExample, RowBounds rowBounds);
+
+    /**
+     * 查询相关问题
+     *
+     * @param question question
+     * @return List<Question>
+     */
+    List<Question> selectRelatedQuestion(Question question);
 }
