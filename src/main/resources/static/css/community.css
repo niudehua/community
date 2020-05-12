@@ -34,6 +34,12 @@ body {
     padding-left: 0;
 }
 
+.img-admire {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+}
+
 .community-menu {
     color: #999;
     font-size: 13px;
