@@ -33,6 +33,8 @@ build/
 ### VS Code ###
 .vscode/
 
-!/.mvn/
-!/mvnw
-!/mvnw.cmd
+### Mavan ###
+/.mvn/
+/mvnw
+/mvnw.cmd
+
