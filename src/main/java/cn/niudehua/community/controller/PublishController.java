@@ -1,6 +1,8 @@
 package cn.niudehua.community.controller;
 
+import cn.niudehua.community.cache.TagCache;
 import cn.niudehua.community.dto.QuestionDTO;
+import cn.niudehua.community.dto.TagDTO;
 import cn.niudehua.community.model.Question;
 import cn.niudehua.community.model.User;
 import cn.niudehua.community.service.QuestionService;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author: deng
@@ -25,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PublishController {
     private final QuestionService questionService;
+    private final static List<TagDTO> tagCache = TagCache.getTagCache();
 
     /**
      * 问题编辑修改
@@ -40,6 +44,7 @@ public class PublishController {
         model.addAttribute("description", questionDTO.getDescription());
         model.addAttribute("tag", questionDTO.getTag());
         model.addAttribute("id", id);
+        model.addAttribute("tagCache", tagCache);
         return "publish";
     }
 
@@ -54,9 +59,9 @@ public class PublishController {
         // 用户未登录，跳转回发布页面
         if (user == null) {
             model.addAttribute("error", "用户未登录");
-            return "publish";
         }
 
+        model.addAttribute("tagCache", tagCache);
         return "publish";
     }
 
@@ -82,6 +87,7 @@ public class PublishController {
         model.addAttribute("title", title);
         model.addAttribute("description", description);
         model.addAttribute("tag", tag);
+        model.addAttribute("tagCache", tagCache);
         // 非空判断
         if (StringUtils.isEmpty(title)) {
             model.addAttribute("error", "问题标题不能为空");

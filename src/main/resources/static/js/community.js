@@ -59,6 +59,8 @@ function comment2target(targetId, content, type) {
     });
 }
 
+
+
 /**
  * 展示二级回复
  * @param e
@@ -108,7 +110,14 @@ function collapseComment(e) {
             subCommentContainer.toggleClass("in");
             $("#sub_comment_icon-" + id).toggleClass("sub-comment-icon-active");
         }
-
     }
 }
 
+
+/**
+ * 展示tag选择
+ */
+function showSelectTag() {
+    $("#select-tag").show()
+
+}
