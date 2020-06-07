@@ -2,6 +2,7 @@ package cn.niudehua.community.controller;
 
 import cn.niudehua.community.dto.CommentCreateDTO;
 import cn.niudehua.community.dto.CommentDTO;
+import cn.niudehua.community.dto.ResultDTO;
 import cn.niudehua.community.enums.CommentTypeEnum;
 import cn.niudehua.community.exception.CustomizeErrorCode;
 import cn.niudehua.community.model.Comment;

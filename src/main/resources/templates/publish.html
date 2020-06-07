@@ -40,6 +40,7 @@
                            onclick="showSelectTag()">
                 </div>
                 <div id="select-tag" class="publish-tag-tab">
+                    <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation"
                             th:each="selectCategory,selectCategoryStat: ${tagCache}"
@@ -49,20 +50,20 @@
                                data-toggle="tab" th:text="${selectCategory.tagCategory}"></a>
                         </li>
                     </ul>
+                    <!-- Tab panes -->
                     <div class="tab-content">
                         <div role="tabpanel" th:id="${selectCategory.tagCategory}"
                              th:each="selectCategory: ${tagCache}"
                              th:class="${selectCategoryStat.first ? 'active tab-pane':'tab-pane'}">
-                                <span>
-                                    <span th:each="selectTag: ${selectCategory.tags}">
-                                    <span class="community-tag" onclick="selectTag(this)"
-                                          th:data-tag="${selectTag}"
-                                          th:text="${' '+selectTag}">
-                                    </span>
+                            <span th:each="selectTag: ${selectCategory.tags}">
+                                <span class="community-tag" onclick="selectTag(this)"
+                                      th:data-tag="${selectTag}"
+                                      th:text="${' '+selectTag}">
                                 </span>
-                                </span>
+                            </span>
                         </div>
                     </div>
+
                 </div>
 
                 <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">

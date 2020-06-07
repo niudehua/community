@@ -1,30 +1,14 @@
-create table USER
+create table user
 (
-	ID BIGINT auto_increment,
-	TOKEN CHAR(36),
-	NAME VARCHAR(50),
-	ACCOUNT_ID VARCHAR(100),
-	GMT_CREAT BIGINT,
-	GMT_MODIFIED BIGINT,
-	BIO VARCHAR(256),
-	AVATAR_URL VARCHAR(100),
-	constraint USER_PK
-		primary key (ID)
-);
-
-comment on column USER.ID is '主键ID';
-
-comment on column USER.TOKEN is '登录令牌';
-
-comment on column USER.NAME is '用户名称';
-
-comment on column USER.ACCOUNT_ID is '账户名';
-
-comment on column USER.GMT_CREAT is '创建时间';
-
-comment on column USER.GMT_MODIFIED is '修改时间';
-
-comment on column USER.BIO is '个人经历';
-
-comment on column USER.AVATAR_URL is '网络头像';
+    id           bigint auto_increment comment '主键id',
+    token        char(36)     null comment '登录令牌',
+    name         varchar(50)  null comment '用户名称',
+    account_id   varchar(100) null comment '账户名',
+    gmt_create   bigint       null comment '创建时间',
+    gmt_modified bigint       null comment '修改时间',
+    bio          varchar(256) null comment '个人经历',
+    avatar_url   varchar(100) null comment '网络头像',
+    constraint user_pk
+        primary key (id)
+) comment '用户表';
 

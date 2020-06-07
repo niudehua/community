@@ -1,4 +1,4 @@
-package cn.niudehua.community.controller;
+package cn.niudehua.community.dto;
 
 import cn.niudehua.community.exception.CustomizeErrorCode;
 import cn.niudehua.community.exception.CustomizeException;

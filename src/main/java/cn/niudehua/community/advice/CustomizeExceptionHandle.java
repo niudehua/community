@@ -1,6 +1,6 @@
 package cn.niudehua.community.advice;
 
-import cn.niudehua.community.controller.ResultDTO;
+import cn.niudehua.community.dto.ResultDTO;
 import cn.niudehua.community.exception.CustomizeErrorCode;
 import cn.niudehua.community.exception.CustomizeException;
 import com.alibaba.fastjson.JSON;

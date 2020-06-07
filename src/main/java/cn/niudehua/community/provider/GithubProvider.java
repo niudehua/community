@@ -2,6 +2,9 @@ package cn.niudehua.community.provider;
 
 import cn.niudehua.community.dto.AccessTokenDTO;
 import cn.niudehua.community.dto.GitHubUser;
+import cn.niudehua.community.exception.CustomizeErrorCode;
+import cn.niudehua.community.exception.CustomizeException;
+import cn.niudehua.community.exception.ICustomizeErrorCode;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import okhttp3.MediaType;
@@ -56,7 +59,7 @@ public class GithubProvider {
     public GitHubUser getGitHubUser(String token) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("https://api.github.com/user?access_token=" + token)
+                .url("https://api.github.com/user?oauth-token=" + token)
                 .build();
         String string = null;
         try {
@@ -64,6 +67,7 @@ public class GithubProvider {
             string = Objects.requireNonNull(response.body()).string();
         } catch (IOException e) {
             e.printStackTrace();
+            throw new CustomizeException(CustomizeErrorCode.SYS_ERROR);
         }
 
         return JSON.parseObject(string, GitHubUser.class);

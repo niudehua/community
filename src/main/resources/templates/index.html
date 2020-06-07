@@ -31,7 +31,7 @@
             <hr>
             <div class="media" th:each="question:${paginationDTO.data}">
                 <div class="media-left">
-                    <!-- TODO 补充默认网络头像 -->
+
                     <img class="media-object img_avatar_url"
                          th:src="${question.user.avatarUrl}" alt="网络头像" src="">
                 </div>

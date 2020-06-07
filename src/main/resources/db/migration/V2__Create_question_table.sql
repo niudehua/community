@@ -1,36 +1,16 @@
-create table QUESTION
+create table question
 (
-    ID            BIGINT auto_increment,
-    TITLE         VARCHAR(50),
-    DESCRIPTION   TEXT,
-    GMT_CREAT     BIGINT,
-    GMT_MODIFIED  BIGINT,
-    CREATOR       BIGINT,
-    COMMENT_COUNT INT default 0,
-    VIEW_COUNT    INT default 0,
-    LIKE_COUNT    INT default 0,
-    TAG           VARCHAR(256),
-    constraint QUESTION_PK
-        primary key (ID)
-);
-
-comment on table QUESTION is '提问表';
-
-comment on column QUESTION.TITLE is '问题标题';
-
-comment on column QUESTION.DESCRIPTION is '问题描述';
-
-comment on column QUESTION.GMT_CREAT is '创建时间';
-
-comment on column QUESTION.GMT_MODIFIED is '修改时间';
-
-comment on column QUESTION.CREATOR is '提问者';
-
-comment on column QUESTION.COMMENT_COUNT is '评论数';
-
-comment on column QUESTION.VIEW_COUNT is '浏览数';
-
-comment on column QUESTION.LIKE_COUNT is '点赞数';
-
-comment on column QUESTION.TAG is '问题标签';
+    id            bigint auto_increment comment '主键id',
+    title         varchar(50) comment '问题标题',
+    description   text comment '问题描述',
+    gmt_create    bigint comment '创建时间',
+    gmt_modified  bigint comment '修改时间',
+    creator       bigint comment '提问者',
+    comment_count int default 0 comment '评论数',
+    view_count    int default 0 comment '浏览数',
+    like_count    int default 0 comment '点赞数',
+    tag           varchar(256) comment '问题标签',
+    constraint question_pk
+        primary key (id)
+) comment '提问表';
 

@@ -60,7 +60,6 @@ function comment2target(targetId, content, type) {
 }
 
 
-
 /**
  * 展示二级回复
  * @param e
@@ -119,5 +118,20 @@ function collapseComment(e) {
  */
 function showSelectTag() {
     $("#select-tag").show()
+}
 
+/**
+ * 选择tag
+ * @param e
+ */
+function selectTag(e) {
+    var value = e.getAttribute("data-tag");
+    var previous = $("#tag").val();
+    if (previous.indexOf(value) === -1) {
+        if (previous) {
+            $("#tag").val(previous + '，' + value);
+        } else {
+            $("#tag").val(value);
+        }
+    }
 }
