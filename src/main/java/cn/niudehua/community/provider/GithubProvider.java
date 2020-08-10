@@ -59,8 +59,9 @@ public class GithubProvider {
     public GitHubUser getGitHubUser(String token) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("https://api.github.com/user?oauth-token=" + token)
+                .url("https://api.github.com/user").addHeader("Authorization", "token " + token)
                 .build();
+
         String string = null;
         try {
             Response response = client.newCall(request).execute();
@@ -69,7 +70,6 @@ public class GithubProvider {
             e.printStackTrace();
             throw new CustomizeException(CustomizeErrorCode.SYS_ERROR);
         }
-
         return JSON.parseObject(string, GitHubUser.class);
 
     }

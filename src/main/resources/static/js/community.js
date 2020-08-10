@@ -78,8 +78,9 @@ function collapseComment(e) {
 
                     const mediaLeftElement = $("<div/>", {
                         "class": "media-left"
-                    }).append($("<img alt='网络头像' src='#'/>", {
+                    }).append($("<img />", {
                         "class": "media-object img_avatar_url",
+                        "alt": "网络头像",
                         "src": comment.user.avatarUrl
                     }));
 

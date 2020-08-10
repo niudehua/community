@@ -2,9 +2,10 @@ package cn.niudehua.community.mapper;
 
 import cn.niudehua.community.model.Question;
 import cn.niudehua.community.model.QuestionExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface QuestionMapper {
     /**

@@ -20,22 +20,24 @@
                 <div class="media-left">
 
                     <img class="media-object img_avatar_url"
-                         th:src="${question.user.avatarUrl}" alt="网络头像"  src=""/>
+                         th:src="${question.user.avatarUrl}" alt="网络头像" src=""/>
                 </div>
 
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <a th:href="@{'/question/'+${question.id}}"><h4 class="media-heading"
+                                                                    th:text="${question.title}"></h4>
+                    </a>
                     <span th:text="${question.description}"></span><br>
                     <span class="text-desc">
-                    <span th:text="${question.commentCount==null?0:question.commentCount}"> </span>个评论 •
-                    <span th:text="${question.viewCount==null?0:question.viewCount}"> </span>次浏览 •
-                    <span th:text="${question.likeCount==null?0:question.likeCount}"></span>个点赞 •
-                    <span th:text="${#dates.format(question.gmtModified, 'yyyy年MM月dd HH:mm:ss')}"></span>
+                        <span th:text="${question.commentCount==null?0:question.commentCount}"> </span>个评论 •
+                        <span th:text="${question.viewCount==null?0:question.viewCount}"> </span>次浏览 •
+                        <span th:text="${question.likeCount==null?0:question.likeCount}"></span>个点赞 •
+                        <span th:text="${#dates.format(question.gmtModified, 'yyyy年MM月dd HH:mm:ss')}"></span>
                          <a th:href="@{'/publish/'+${question.id}}" class="community-menu"
                             th:if="${session.gitHubUser!=null && session.gitHubUser.id==question.user.id}">
-                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"> 编辑</span>
-
-                </a>
+                                <span class="glyphicon glyphicon-pencil"
+                                      aria-hidden="true"> 编辑</span>
+                         </a>
                     </span>
                 </div>
             </div>
